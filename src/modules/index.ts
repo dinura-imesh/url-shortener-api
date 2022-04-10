@@ -1,4 +1,3 @@
-import connectDB from './database';
-import { randomID } from './id';
-
-export { connectDB, randomID };
+export * from './password';
+export * from './database';
+export * from './id';

@@ -1,5 +1,3 @@
-const ContainerConstants = {
+export const ContainerConstants = {
   Sequelize: 'Sequelize',
 };
-
-export default ContainerConstants;
