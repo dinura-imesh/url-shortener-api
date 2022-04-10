@@ -12,11 +12,24 @@ export const shortenUrl = async (request: Request, response: Response) => {
   }
 };
 
-export const getUrl = async (request: Request, response: Response) => {
+export const redirectToUrl = async (request: Request, response: Response) => {
   try {
     const url = await findUrl(request.params.id);
     if (url) {
       response.status(200).redirect(url.get('url') as string);
+    } else {
+      response.status(404).send('NOT_FOUND');
+    }
+  } catch (error) {
+    response.status(500).send();
+  }
+};
+
+export const getUrl = async (request: Request, response: Response) => {
+  try {
+    const url = await findUrl(request.query.id as string);
+    if (url) {
+      response.status(200).json({ url: url.get('url'), createdAt: url.get('createdAt') });
     } else {
       response.status(404).send('NOT_FOUND');
     }

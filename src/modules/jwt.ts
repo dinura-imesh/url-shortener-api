@@ -16,5 +16,9 @@ export const generateAuthTokens = (email: string, authTokenValidity: number = 1,
 };
 
 export const decodeToken = (token: string) => {
-  return jwt.verify(token, process.env.JWT_SECRET as string);
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET as string);
+  } catch (error) {
+    return null;
+  }
 };

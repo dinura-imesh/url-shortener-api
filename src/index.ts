@@ -1,25 +1,20 @@
-import { shortenUrl } from './controllers/urlController';
-import { loadDb } from './loaders/dbLoader';
 import 'reflect-metadata';
 import env from 'dotenv';
-import express from 'express';
-import { getUrl } from './controllers';
-import { createUser } from './services/userService';
-import { createAPIKey, getAPIKey } from './services/apiKeyService';
-import { generateAuthTokens, decodeToken } from './modules';
-import { authRouter } from './routes';
-
 env.config();
+
+import { redirectToUrl } from './controllers/urlController';
+import { loadDb } from './loaders/dbLoader';
+import express from 'express';
+import { authRouter, urlRouter } from './routes';
 
 const app = express();
 
 app.use(express.json());
 
-app.get('/:id', getUrl);
-
-app.post('/', shortenUrl);
-
 app.use('/auth', authRouter);
+app.use('/url', urlRouter);
+
+app.get('/:id', redirectToUrl);
 
 const startServer = async () => {
   await loadDb();
