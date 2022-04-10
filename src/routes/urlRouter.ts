@@ -1,7 +1,6 @@
-import { getUrl } from './../controllers/urlController';
-import { authMiddleWare } from './../middlewares';
+import { authMiddleWare, validateApiKeyMiddleware } from '../middlewares';
 import express from 'express';
-import { shortenUrl } from '../controllers';
+import { shortenUrl, getUrl } from '../controllers';
 
 const router = express.Router();
 
@@ -9,6 +8,6 @@ router.use(authMiddleWare);
 
 router.get('/', getUrl);
 
-router.post('/', shortenUrl);
+router.post('/', validateApiKeyMiddleware, shortenUrl);
 
 export const urlRouter = router;

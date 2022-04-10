@@ -1,14 +1,16 @@
 import { Request, Response } from 'express';
 import { randomID } from '../modules';
-import { createUrl, findUrl } from '../services';
+import { addApiKeyUsage, createUrl, findUrl, getApiKeyUsageCount, getUser } from '../services';
 
-export const shortenUrl = async (request: Request, response: Response) => {
+export const shortenUrl = async (req: Request, res: Response) => {
   const id = randomID();
   try {
-    await createUrl(id, request.body.url);
-    response.status(200).json({ id: id });
+    if (!req.body._user?.get('isPremium')) {
+      await addApiKeyUsage((req.headers['apikey'] as string).split('.')[0]);
+    }
+    res.status(200).json({ id: id });
   } catch (error) {
-    response.status(500).send();
+    res.status(500).send();
   }
 };
 

@@ -2,6 +2,7 @@ import { AuthConstants } from './../constants/authConstants';
 import { NextFunction, Request, Response } from 'express';
 import { decodeToken } from '../modules';
 import { JwtPayload } from 'jsonwebtoken';
+import { getUser } from '../services';
 
 export const authMiddleWare = async (req: Request, res: Response, next: NextFunction) => {
   if (!req.headers['authorization'] || req.headers['authorization'].split(' ').length <= 1) {
@@ -18,5 +19,6 @@ export const authMiddleWare = async (req: Request, res: Response, next: NextFunc
     res.status(401).json({ status: AuthConstants.TOKEN_EXPIRED });
     return;
   }
+  req.body._user = await getUser((decodedToken as JwtPayload).email);
   next();
 };
