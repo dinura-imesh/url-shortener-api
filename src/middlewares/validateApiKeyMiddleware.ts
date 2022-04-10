@@ -23,7 +23,6 @@ export const validateApiKeyMiddleware = async (req: Request, res: Response, next
   }
   if (!req.body._user?.get('isPremium')) {
     const apiKeyUsage = await getApiKeyUsageCount(keyId);
-    console.log(apiKeyUsage);
     if (apiKeyUsage >= Number(process.env.FREE_API_USAGE)) {
       res.status(401).json({ status: StatusConstants.API_KEY_FREE_USAGE_EXCEEDED });
       return;
