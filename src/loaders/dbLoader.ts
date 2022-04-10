@@ -2,8 +2,8 @@ import { defineAPIKeyModel, defineAPIKeyUsageModel, defineUrlModel, defineUserMo
 import { connectDB } from '../modules';
 
 export const loadDb = async () => {
-  await connectDB();
   try {
+    await connectDB();
     await defineUserModel();
     await defineAPIKeyModel();
     await defineUrlModel();
