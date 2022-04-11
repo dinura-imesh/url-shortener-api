@@ -11,7 +11,7 @@ export const shortenUrl = async (req: Request, res: Response) => {
     if (!req.body._user?.isPremium) {
       await addApiKeyUsage(req.headers['apikey'] as string);
     }
-    res.status(200).json({ id: id, url: `${req.protocol}://${req.get('host')}/${id}` });
+    res.status(200).json({ id: id, url: `${req.protocol}://${req.get('host')}/a/${id}` });
   }, res);
 };
 

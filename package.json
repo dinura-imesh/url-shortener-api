@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha -r ts-node/register 'src/tests/**/*.ts'  -r dotenv/config",
     "start:dev": "nodemon",
-    "build": "rimraf ./build && tsc"
+    "build": "tsc",
+    "postinstall": "tsc"
   },
   "keywords": [],
   "author": "",

@@ -12,14 +12,18 @@ import { startDeleteAPIKeyUsageCron } from './cron';
 const app = express();
 
 app.use(cors({ origin: '*' }));
+app.use(express.static(__dirname + '/public'));
+console.log(__dirname);
 app.use(express.json());
 
-app.use('/auth', authRouter);
-app.use('/url', urlRouter);
-app.use('/api', apiKeyRouter);
-app.use('/user', userRouter);
+app.use('/a/auth', authRouter);
+app.use('/a/url', urlRouter);
+app.use('/a/api', apiKeyRouter);
+app.use('/a/user', userRouter);
 
-app.get('/:id', redirectToUrl);
+app.get('/a/:id', redirectToUrl);
+
+app.get('*', (req, res) => res.sendFile(__dirname + '/public/index.html'));
 
 const startServer = async () => {
   await loadDb();
