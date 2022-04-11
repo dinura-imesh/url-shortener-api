@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 
 export const hashText = (password: string) => {
   return new Promise<string>((resolve, reject) => {
-    return bcrypt.hash(password, 10, function (err, hash) {
+    return bcrypt.hash(password, 1, function (err, hash) {
       resolve(hash);
     });
   });
