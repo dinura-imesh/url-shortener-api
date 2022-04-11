@@ -1,3 +1,4 @@
+import { StatusConstants } from './../constants/statusConstants';
 import { handleError } from './../utils/handleError';
 import { Request, Response } from 'express';
 import { randomID } from '../modules';
@@ -27,11 +28,15 @@ export const redirectToUrl = async (request: Request, response: Response) => {
 
 export const getUrl = async (request: Request, response: Response) => {
   handleError(async () => {
+    if (!request.query.id) {
+      response.status(404).json({ status: StatusConstants.INVALID_ID });
+      return;
+    }
     const url = await findUrl(request.query.id as string);
     if (url) {
       response.status(200).json({ url: url.get('url'), createdAt: url.get('createdAt') });
     } else {
-      response.status(404).send('NOT_FOUND');
+      response.status(404).json({ status: StatusConstants.INVALID_ID });
     }
   }, response);
 };
