@@ -7,6 +7,11 @@ import { JwtPayload } from 'jsonwebtoken';
 
 export const signUp = async (req: Request, res: Response) => {
   handleError(async () => {
+    const existingUser = await getUser(req.body.email);
+    if (existingUser) {
+      res.status(400).json({ status: AuthConstants.USER_EXISTS });
+      return;
+    }
     const hashedPassword = await hashText(req.body.password);
     const user = await createUser(req.body.firstName, req.body.lastName, req.body.email, hashedPassword, false);
     const { authToken, refreshToken } = generateAuthTokens(user.get('email') as string);
