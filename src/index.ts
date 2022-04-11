@@ -7,6 +7,7 @@ import { redirectToUrl } from './controllers/urlController';
 import { loadDb } from './loaders/dbLoader';
 import express from 'express';
 import { apiKeyRouter, authRouter, urlRouter, userRouter } from './routes';
+import { startDeleteAPIKeyUsageCron } from './cron';
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.get('/:id', redirectToUrl);
 
 const startServer = async () => {
   await loadDb();
+  startDeleteAPIKeyUsageCron();
   app.listen(process.env.PORT || 8000, () => console.log('Server started'));
 };
 

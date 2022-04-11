@@ -7,3 +7,7 @@ export const getApiKeyUsageCount = async (apiKey: string) => {
 export const addApiKeyUsage = async (apiKey: string) => {
   return await APIKeyUsageModel.create({ keyRef: apiKey });
 };
+
+export const deleteApiKeyUsageRecords = async () => {
+  await APIKeyUsageModel.sync({ force: true });
+};
