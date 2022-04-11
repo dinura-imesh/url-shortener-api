@@ -13,7 +13,6 @@ const app = express();
 
 app.use(cors({ origin: '*' }));
 app.use(express.static(__dirname + '/public'));
-console.log(__dirname);
 app.use(express.json());
 
 app.use('/a/auth', authRouter);
