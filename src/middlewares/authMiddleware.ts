@@ -19,6 +19,11 @@ export const authMiddleWare = async (req: Request, res: Response, next: NextFunc
     res.status(401).json({ status: AuthConstants.TOKEN_EXPIRED });
     return;
   }
-  req.body._user = await getUser((decodedToken as JwtPayload).email);
+  const user = await getUser((decodedToken as JwtPayload).email);
+  if (!user) {
+    res.status(404).json({ status: AuthConstants.USER_NOT_FOUND });
+    return;
+  }
+  req.body._user = user.toJSON();
   next();
 };

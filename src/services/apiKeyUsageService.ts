@@ -1,9 +1,9 @@
 import { APIKeyUsageModel } from './../models/apiKeyUseModel';
 
-export const getApiKeyUsageCount = async (apiKeyId: string) => {
-  return await APIKeyUsageModel.count({ where: { keyRef: apiKeyId } });
+export const getApiKeyUsageCount = async (apiKey: string) => {
+  return await APIKeyUsageModel.count({ where: { keyRef: apiKey } });
 };
 
-export const addApiKeyUsage = async (apiKeyId: string) => {
-  return await APIKeyUsageModel.create({ keyRef: apiKeyId });
+export const addApiKeyUsage = async (apiKey: string) => {
+  return await APIKeyUsageModel.create({ keyRef: apiKey });
 };

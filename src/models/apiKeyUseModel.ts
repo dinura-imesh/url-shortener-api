@@ -17,7 +17,7 @@ export const defineAPIKeyUsageModel = async () => {
         type: DataTypes.STRING,
         references: {
           model: APIKeyModel,
-          key: 'id',
+          key: 'key',
         },
       },
     },

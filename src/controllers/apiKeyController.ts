@@ -13,8 +13,17 @@ export const createApiKey = async (req: Request, res: Response) => {
       res.status(400).json({ status: StatusConstants.INVALID_OPERATION });
       return;
     }
-    const { apiKey, key, id, hashed } = await generateAPIKey();
-    await createAPIKey(id, hashed, req.body._user.id);
+    const apiKey = await generateAPIKey();
+    await createAPIKey(apiKey, req.body._user.id);
     res.status(200).send({ apiKey: apiKey });
+  }, res);
+};
+
+export const getApiKey = async (req: Request, res: Response) => {
+  handleError(async () => {
+    const apiKey = await getAPIKeyFromUserId(req.body._user.id);
+    if (apiKey != null) {
+      res.status(200).json({ apiKey: `${apiKey.get('key')}` });
+    }
   }, res);
 };

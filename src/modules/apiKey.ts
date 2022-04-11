@@ -1,14 +1,5 @@
-import shortid from 'shortid';
-import uniqid from 'uniqid';
-import { hashText } from './hash';
+import { v4 as uuidv4 } from 'uuid';
+
 export const generateAPIKey = async () => {
-  const key = `${uniqid()}-${shortid()}`;
-  const id = `${uniqid()}-${shortid()}`;
-  const hashed = await hashText(key);
-  return {
-    key: key,
-    id: id,
-    hashed: hashed,
-    apiKey: `${id}.${key}`,
-  };
+  return uuidv4();
 };

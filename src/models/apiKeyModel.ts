@@ -8,14 +8,10 @@ export class APIKeyModel extends Model {}
 export const defineAPIKeyModel = async () => {
   APIKeyModel.init(
     {
-      id: {
+      key: {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
-      },
-      keyHash: {
-        type: DataTypes.STRING,
-        allowNull: false,
       },
       userRef: {
         type: DataTypes.UUID,
