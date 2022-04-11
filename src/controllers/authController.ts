@@ -1,8 +1,9 @@
-import { generateAuthTokens, verifyHashedText, hashText } from '../modules';
+import { generateAuthTokens, verifyHashedText, hashText, decodeToken } from '../modules';
 import { Request, Response } from 'express';
 import { createUser, getUser } from '../services';
 import { handleError } from '../utils';
 import { AuthConstants, StatusConstants } from '../constants';
+import { JwtPayload } from 'jsonwebtoken';
 
 export const signUp = async (req: Request, res: Response) => {
   handleError(async () => {
@@ -28,4 +29,19 @@ export const signIn = async (req: Request, res: Response) => {
     const { authToken, refreshToken } = generateAuthTokens(user.get('email') as string);
     res.status(200).json({ status: AuthConstants.SIGNED_IN, authToken: authToken, refreshToken: refreshToken });
   }, res);
+};
+
+export const refreshToken = async (req: Request, res: Response) => {
+  const token = req.body.refreshToken;
+  const decodedToken = await decodeToken(token);
+  if (!decodedToken) {
+    res.status(403).json({ status: AuthConstants.NOT_AUTHORIZED });
+    return;
+  }
+  if ((decodedToken as JwtPayload).exp! < new Date().getTime()) {
+    res.status(401).json({ status: AuthConstants.TOKEN_EXPIRED });
+    return;
+  }
+  const { authToken, refreshToken } = generateAuthTokens((decodedToken as JwtPayload).email as string);
+  res.status(200).json({ authToken: authToken, refreshToken: refreshToken });
 };

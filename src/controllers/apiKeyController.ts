@@ -10,7 +10,7 @@ export const createApiKey = async (req: Request, res: Response) => {
     if (req.body._user.isPremium && existingApiKey != null) {
       deleteAPIKey(existingApiKey?.get('id') as string);
     } else if (existingApiKey != null) {
-      res.status(401).json({ status: StatusConstants.INVALID_OPERATION });
+      res.status(400).json({ status: StatusConstants.INVALID_OPERATION });
       return;
     }
     const { apiKey, key, id, hashed } = await generateAPIKey();

@@ -36,5 +36,5 @@ export const defineUserModel = async () => {
     },
     { sequelize: Container.get(ContainerConstants.Sequelize), modelName: 'User', timestamps: true },
   );
-  await UserModel.sync({ alter: true });
+  await UserModel.sync();
 };
