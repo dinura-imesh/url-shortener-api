@@ -24,6 +24,10 @@ export const getApiKey = async (req: Request, res: Response) => {
     const apiKey = await getAPIKeyFromUserId(req.body._user.id);
     if (apiKey != null) {
       res.status(200).json({ apiKey: `${apiKey.get('key')}` });
+    } else {
+      const apiKey = await generateAPIKey();
+      await createAPIKey(apiKey, req.body._user.id);
+      res.status(200).send({ apiKey: apiKey });
     }
   }, res);
 };
