@@ -17,9 +17,13 @@ export const shortenUrl = async (req: Request, res: Response) => {
 
 export const redirectToUrl = async (request: Request, response: Response) => {
   handleError(async () => {
-    const url = await findUrl(request.params.id);
-    if (url) {
-      response.status(200).redirect(url.get('url') as string);
+    if (request.params.id) {
+      const url = await findUrl(request.params.id);
+      if (url) {
+        response.status(200).redirect(url.get('url') as string);
+      } else {
+        response.status(404).send('NOT_FOUND');
+      }
     } else {
       response.status(404).send('NOT_FOUND');
     }
